@@ -46,8 +46,8 @@ class vectorMatrixThingy(BlackAndWhiteImageMatrix):
         super().__init__()
         self.pointConnectionMatrix = []
     def set_pixel(self, pos1: Vector2, value: int, pos2:Vector2):
-        super().set_pixel(pos1, 1)
-        self.pointConnectionMatrix[pos2.x][pos2.y]=pos1
+        super().set_pixel(pos1, value)
+        super().set_pixel(pos2, value)
     def create(self, size: Vector2):
         super().create(size)
         for x in range(size.x):
@@ -56,28 +56,13 @@ class vectorMatrixThingy(BlackAndWhiteImageMatrix):
                 new_x.append(0)
 
             self.pointConnectionMatrix.append(new_x)
-def isPathBetweenTwoPointsExistentOnGod(pos1:Vector2,pos2:Vector2,matrix:list):
-    isResultFound = False
-    stopAtYpoint = 0
-    if(pos1.y<)
-    while(not isResultFound):
 
 def funnyMiddleendThingyToDoStuff(leImage:BlackAndWhiteImageMatrix):
     level_of_detail = 50
-    lePointImageTHingy = vectorMatrixThingy()
-    lePointImageTHingy.create(leImage.size)
     lodTicker = 0
-    currentFunnyThingies = []
     for n in len(leImage.matrix.y):
         if (lodTicker==0 or lodTicker==level_of_detail):
             for x in len(leImage.matrix.x):
-                if(leImage.matrix[x][n]==1):
-                    if(n!=0):
-                        if(len(currentFunnyThingies)==0):
-                            currentFunnyThingies.append(Vector2(x,n))
-                           
-                    else:
-                        pass
         lodTicker+=1
         if (lodTicker>level_of_detail):
             lodTicker=0
