@@ -1,7 +1,9 @@
 #import all the libraries, which provide premade functions 
 #(similiar to functions from math) for common tasks 
 #like reading images and manipulating lists
+
 #python is ez dubs if you just import 5 billion libraries
+
 import cv2
 from numpy import *
 import sys
@@ -17,6 +19,11 @@ if(len(funnyArgs)<1):
     raise Exception("smartahh you need more arguments")
 if(len(funnyArgs)>1):
     raise Exception("smartahh you need less arguments")
+try:
+    testingSomeStuff = int(funnyArgs[0])
+except:
+    raise Exception("the level of detail is a number smartahh")
+level_of_detail=funnyArgs[0]
 print(funnyArgs)
 #classes (objects that hold functions and value)
 
@@ -80,6 +87,22 @@ class vectorMatrixThingy(BlackAndWhiteImageMatrix):
                 new_x.append(0)
 
             self.pointConnectionMatrix.append(new_x)
+#take a bitmap image and the position of a pixel in that image, and return its neighboring pixels
+def getNeighbors(pixelPos:Vector2,otherSTupidImageThingy:BlackAndWhiteImageMatrix):
+        myNeighbors =[]
+        if(not otherSTupidImageThingy.y==otherSTupidImageThingy.size.y):
+            myNeighbors.append(otherSTupidImageThingy.matrix[pixelPos.x][pixelPos.y+1])
+            myNeighbors.append(otherSTupidImageThingy.matrix[pixelPos.x+1][pixelPos.y+1])
+        if(not otherSTupidImageThingy.y==0):
+            myNeighbors.append(otherSTupidImageThingy.matrix[pixelPos.x][pixelPos.y-1])
+            myNeighbors.append(otherSTupidImageThingy.matrix[pixelPos.x-1][pixelPos.y-1])
+        if(otherSTupidImageThingy.x!=0):
+            myNeighbors.append(otherSTupidImageThingy.matrix[pixelPos.x-1][pixelPos.y])
+            myNeighbors.append(otherSTupidImageThingy.matrix[pixelPos.x-1][pixelPos.y+1])
+        if(otherSTupidImageThingy.x!=otherSTupidImageThingy.size.x):
+            myNeighbors.append(otherSTupidImageThingy.matrix[pixelPos.x+1][pixelPos.y])
+            myNeighbors.append(otherSTupidImageThingy.matrix[pixelPos.x+1][pixelPos.y-1])
+        return myNeighbors
 #a function to see if, in a bitmap image, you can connect two points
 #by following black pixels on the image (i just started working on it)
 def isPathBetweenTwoPointsExistentOnGod(pos1:Vector2,pos2:Vector2,matrix:BlackAndWhiteImageMatrix):
@@ -96,16 +119,28 @@ def isPathBetweenTwoPointsExistentOnGod(pos1:Vector2,pos2:Vector2,matrix:BlackAn
     find = AStarFinder(diagonal_movement=DiagonalMovement.always)
     #if length of path is zero, then there is no path between the two points
     path, runs = find.find_path(start, end, grid)
-    if len(paths)==0:
+    if len(path)==0:
         return False
     else:
         return True
-#this code executes all the stuff for the middle-end, which im still working on
+#this code executes all the stuff for the middle-end
 def funnyMiddleendThingyToDoStuff(leImage:BlackAndWhiteImageMatrix):
-    pass
-    
+    lodTicker = 0
+    thingToReturn= vectorMatrixThingy()
+    thingToReturn.create(leImage.size)
+
+    for y in leImage.size.y:
+        
+        lodTicker +=1
+        if (lodTicker==level_of_detail):
+            lodTicker=0
+    return thingToReturn
+def returnPixelFrontOfLine(pixelpos:Vector2,stupidImageThigy:BlackAndWhiteImageMatrix)->list:
+    currentFollowingPixel:Vector2=pixelpos
+    for y in level_of_detail:
+        if(getNeighbors(currentFollowingPixel,stupidImageThigy))
 #this takes a string (datatype for strings of characters) and converts
-#it into aBlackAndWhiteImageMatrix 
+#it into a BlackAndWhiteImageMatrix 
 def matrixFromImage(fileLocation:str)->BlackAndWhiteImageMatrix:
     newImage = cv2.imread(fileLocation, cv2.IMREAD_GRAYSCALE)
     newImageMatrix = BlackAndWhiteImageMatrix()
@@ -129,6 +164,7 @@ def threeNeighborsCheck(list:List)->bool:
             if(incrementer!=0):
                 return True
     return False
+
 #take an image matrix and convert it to a new image matrix that 
 #only includes the pixels that are neighboring 3 or more white pixels
 def generateEdgeMap(imageMatrix:BlackAndWhiteImageMatrix)->BlackAndWhiteImageMatrix:
@@ -137,20 +173,8 @@ def generateEdgeMap(imageMatrix:BlackAndWhiteImageMatrix)->BlackAndWhiteImageMat
     myNeighbors = []
     for x in range(newImageMatrix.size.x):
         for y in range(newImageMatrix.size.y):
-            if(not y==newImageMatrix.size.y):
-                myNeighbors.append(imageMatrix.matrix[x][y+1])
-                myNeighbors.append(imageMatrix.matrix[x+1][y+1])
-            if(not y==0):
-                myNeighbors.append(imageMatrix.matrix[x][y-1])
-                myNeighbors.append(imageMatrix.matrix[x-1][y-1])
-            if(x!=0):
-                myNeighbors.append(imageMatrix.matrix[x-1][y])
-                myNeighbors.append(imageMatrix.matrix[x-1][y+1])
-            if(x!=newImageMatrix.size.x):
-                myNeighbors.append(imageMatrix.matrix[x+1][y])
-                myNeighbors.append(imageMatrix.matrix[x+1][y-1])
+            myNeighbors = getNeighbors(x,y,imageMatrix)
             if(threeNeighborsCheck(myNeighbors)):
                 newImageMatrix.set_pixel(Vector2(x,y),1)
     return newImageMatrix
 funnyhaha = matrixFromImage(funnyArgs[0])
-
