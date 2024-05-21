@@ -1,10 +1,15 @@
 #import all the libraries, which provide premade functions 
 #(similiar to functions from math) for common tasks 
 #like reading images and manipulating lists
+#python is ez dubs if you just import 5 billion libraries
 import cv2
 from numpy import *
 import sys
 import minecraft
+import threading
+from pathfinding.core.diagonal_movement import DiagonalMovement
+from pathfinding.core.grid import Grid
+from pathfinding.finder.a_star import AStarFinder
 #command-line arguments so the user can use 
 #settings other than the defaults if they want
 funnyArgs = sys.argv
@@ -50,6 +55,15 @@ class BlackAndWhiteImageMatrix:
             self.matrix[pos.x][pos.y] = value
         else:
             raise Exception("imageMatrix is black and white only")
+    def crop_y(self,start_y: int, end_y: int):
+        for dumbFUnnyNumber in range(end_y-start_y):
+            self.matrix.pop(dumbFUnnyNumber+start_y)
+        idkImStupid = (end_y-start_y)+start_y
+        for dumbAss in range(idkImStupid):
+            self.matrix.pop(dumbAss+(end_y-start_y))
+        
+        
+        
 #an object for storing an image made of lines as opposed to pixels (a vector image)
 class vectorMatrixThingy(BlackAndWhiteImageMatrix):
     def __init__(self) -> None:
@@ -68,35 +82,28 @@ class vectorMatrixThingy(BlackAndWhiteImageMatrix):
             self.pointConnectionMatrix.append(new_x)
 #a function to see if, in a bitmap image, you can connect two points
 #by following black pixels on the image (i just started working on it)
-def isPathBetweenTwoPointsExistentOnGod(pos1:Vector2,pos2:Vector2,matrix:list):
+def isPathBetweenTwoPointsExistentOnGod(pos1:Vector2,pos2:Vector2,matrix:BlackAndWhiteImageMatrix):
     isResultFound = False
     stopAtYpoint = 0
     if(pos1.y<pos2.y):
         stopAtYpoint=1
     elif(pos1.y>pos2.y):
         stopAtYpoint=-1
-    while(not isResultFound):
-        pass
+    matrix.crop_y(pos1.y,pos2.y)
+    grid = Grid(matrix=matrix.matrix)
+    dumbassStartPosition = grid.Node(pos1.x,pos1.y)
+    dumbassEndPosition = grid.Node(pos2.x,pos.x)
+    find = AStarFinder(diagonal_movement=DiagonalMovement.always)
+    #if length of path is zero, then there is no path between the two points
+    path, runs = find.find_path(start, end, grid)
+    if len(paths)==0:
+        return False
+    else:
+        return True
 #this code executes all the stuff for the middle-end, which im still working on
 def funnyMiddleendThingyToDoStuff(leImage:BlackAndWhiteImageMatrix):
-    level_of_detail = 50
-    lePointImageTHingy = vectorMatrixThingy()
-    lePointImageTHingy.create(leImage.size)
-    lodTicker = 0
-    currentFunnyThingies = []
-    for n in len(leImage.matrix.y):
-        if (lodTicker==0 or lodTicker==level_of_detail):
-            for x in len(leImage.matrix.x):
-                if(leImage.matrix[x][n]==1):
-                    if(n!=0):
-                        if(len(currentFunnyThingies)==0):
-                            currentFunnyThingies.append(Vector2(x,n))
-                           
-                    else:
-                        pass
-        lodTicker+=1
-        if (lodTicker>level_of_detail):
-            lodTicker=0
+    pass
+    
 #this takes a string (datatype for strings of characters) and converts
 #it into aBlackAndWhiteImageMatrix 
 def matrixFromImage(fileLocation:str)->BlackAndWhiteImageMatrix:
@@ -119,7 +126,7 @@ def threeNeighborsCheck(list:List)->bool:
     for x in range(len(list)):
         if(x == 1):
             incrementer += 1
-            if(incrementer == 3):
+            if(incrementer!=0):
                 return True
     return False
 #take an image matrix and convert it to a new image matrix that 
