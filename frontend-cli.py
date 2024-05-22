@@ -103,6 +103,21 @@ def getNeighbors(pixelPos:Vector2,otherSTupidImageThingy:BlackAndWhiteImageMatri
             myNeighbors.append(otherSTupidImageThingy.matrix[pixelPos.x+1][pixelPos.y])
             myNeighbors.append(otherSTupidImageThingy.matrix[pixelPos.x+1][pixelPos.y-1])
         return myNeighbors
+def getNeighborsPos(pixelPos:Vector2,otherSTupidImageThingy:BlackAndWhiteImageMatrix):
+        myNeighbors =[]
+        if(not otherSTupidImageThingy.y==otherSTupidImageThingy.size.y):
+            myNeighbors.append(otherSTupidImageThingy.Vector2(pixelPos.x,pixelPos.y+1))
+            myNeighbors.append(otherSTupidImageThingy.Vector2(pixelPos.x+1,pixelPos.y+1))
+        if(not otherSTupidImageThingy.y==0):
+            myNeighbors.append(otherSTupidImageThingy.Vector2(pixelPos.x,pixelPos.y-1))
+            myNeighbors.append(otherSTupidImageThingy.Vector2(pixelPos.x-1,pixelPos.y-1))
+        if(otherSTupidImageThingy.x!=0):
+            myNeighbors.append(otherSTupidImageThingy.Vector2(pixelPos.x-1,pixelPos.y))
+            myNeighbors.append(otherSTupidImageThingy.Vector2(pixelPos.x-1,pixelPos.y))
+        if(otherSTupidImageThingy.x!=otherSTupidImageThingy.size.x):
+            myNeighbors.append(otherSTupidImageThingy.Vector2(pixelPos.x+1,pixelPos.y))
+            myNeighbors.append(otherSTupidImageThingy.Vector2(pixelPos.x+1,pixelPos.y-1))
+        return myNeighbors
 #a function to see if, in a bitmap image, you can connect two points
 #by following black pixels on the image (i just started working on it)
 def isPathBetweenTwoPointsExistentOnGod(pos1:Vector2,pos2:Vector2,matrix:BlackAndWhiteImageMatrix):
@@ -123,6 +138,16 @@ def isPathBetweenTwoPointsExistentOnGod(pos1:Vector2,pos2:Vector2,matrix:BlackAn
         return False
     else:
         return True
+def getRidOfThatOtherThingy(theThingy:list,ohBoyIreallyLoveWritingCodeFrFrOnGodThisIsSoStupidWhatAmIEvenDoingIFeelSorryForAnyoneWhoHasToReadThisCodeWtf:Vector2):
+    #hey guys whats up its me writing another stupid code comment beCAUSE I SUCK AT FOCUSING OOPS ACCidently turned on caps lock anyways gtg bye 
+    stuffToRemove = []
+    thisIsSoFreakingBoringAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA = theThingy
+    for hjh in theThingy.size():
+        if(theThingy[hjh].y<ohBoyIreallyLoveWritingCodeFrFrOnGodThisIsSoStupidWhatAmIEvenDoingIFeelSorryForAnyoneWhoHasToReadThisCodeWtf.y):
+            stuffToRemove.append(hjh)
+    for qwertyuioppoiuyrsredftyuijokpkxqweiqiewiqyeiyiewiuewqiyqiweqiueqweqwyueqweqwiyewquyweqweqiyewqeiyueqw in stuffToRemove.size():
+        thisIsSoFreakingBoringAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA.remove(stuffToRemove[qwertyuioppoiuyrsredftyuijokpkxqweiqiewiqyeiyiewiuewqiyqiweqiueqweqwyueqweqwiyewquyweqweqiyewqeiyueqw])
+    return thisIsSoFreakingBoringAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 #this code executes all the stuff for the middle-end
 def funnyMiddleendThingyToDoStuff(leImage:BlackAndWhiteImageMatrix):
     lodTicker = 0
@@ -135,10 +160,16 @@ def funnyMiddleendThingyToDoStuff(leImage:BlackAndWhiteImageMatrix):
         if (lodTicker==level_of_detail):
             lodTicker=0
     return thingToReturn
-def returnPixelFrontOfLine(pixelpos:Vector2,stupidImageThigy:BlackAndWhiteImageMatrix)->list:
+def returnPixelFrontOfLine(pixelpos:Vector2,stupidImageThigy:BlackAndWhiteImageMatrix,amountOfThingyUnitsInFrontOf)->list:
+    funyNeighbors = []
     currentFollowingPixel:Vector2=pixelpos
     for y in level_of_detail:
-        if(getNeighbors(currentFollowingPixel,stupidImageThigy))
+        funyNeighborsPosThingManWritingCodeSucksThisIsSoBoring = getNeighborsPos(currentFollowingPixel,stupidImageThigy)
+        funyNeighbors = getNeighbors(currentFollowingPixel,stupidImageThigy)
+        if(funyNeighbors.size()==1):
+            currentFollowingPixel.x = f
+        if(funyNeighbors.size()==0):
+            return currentFollowingPixel
 #this takes a string (datatype for strings of characters) and converts
 #it into a BlackAndWhiteImageMatrix 
 def matrixFromImage(fileLocation:str)->BlackAndWhiteImageMatrix:
