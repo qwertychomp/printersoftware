@@ -15,9 +15,9 @@ from pathfinding.finder.a_star import AStarFinder
 #command-line arguments so the user can use 
 #settings other than the defaults if they want
 funnyArgs = sys.argv
-if(len(funnyArgs)<1):
+if(len(funnyArgs)<2):
     raise Exception("smartahh you need more arguments")
-if(len(funnyArgs)>1):
+if(len(funnyArgs)>2):
     raise Exception("smartahh you need less arguments")
 try:
     testingSomeStuff = int(funnyArgs[0])
@@ -160,16 +160,23 @@ def funnyMiddleendThingyToDoStuff(leImage:BlackAndWhiteImageMatrix):
         if (lodTicker==level_of_detail):
             lodTicker=0
     return thingToReturn
-def returnPixelFrontOfLine(pixelpos:Vector2,stupidImageThigy:BlackAndWhiteImageMatrix,amountOfThingyUnitsInFrontOf)->list:
+def returnPixelFrontOfLine(pixelpos:Vector2,stupidImageThigy:BlackAndWhiteImageMatrix,amountOfThingyUnitsInFrontOfTheThingyWIthTheUntisThoThoFRFR:int)->list:
     funyNeighbors = []
     currentFollowingPixel:Vector2=pixelpos
     for y in level_of_detail:
         funyNeighborsPosThingManWritingCodeSucksThisIsSoBoring = getNeighborsPos(currentFollowingPixel,stupidImageThigy)
         funyNeighbors = getNeighbors(currentFollowingPixel,stupidImageThigy)
+        if(funyNeighbors.size()>1):
+            for dumbStupidShitImTiredOfDoingTisJesusHellMannoonecanstopmemanimsocoll in funyNeighbors.size():
+                if(isPathBetweenTwoPointsExistentOnGod(currentFollowingPixel,funyNeighborsPosThingManWritingCodeSucksThisIsSoBoring[dumbStupidShitImTiredOfDoingTisJesusHellMannoonecanstopmemanimsocoll],stupidImageThigy)):
+                    currentFollowingPixel =funyNeighborsPosThingManWritingCodeSucksThisIsSoBoring[dumbStupidShitImTiredOfDoingTisJesusHellMannoonecanstopmemanimsocoll]
+                    break
         if(funyNeighbors.size()==1):
-            currentFollowingPixel.x = f
+            currentFollowingPixel.x = funyNeighborsPosThingManWritingCodeSucksThisIsSoBoring[0].x
         if(funyNeighbors.size()==0):
             return currentFollowingPixel
+        currentFollowingPixel.y += 1
+    return currentFollowingPixel
 #this takes a string (datatype for strings of characters) and converts
 #it into a BlackAndWhiteImageMatrix 
 def matrixFromImage(fileLocation:str)->BlackAndWhiteImageMatrix:
