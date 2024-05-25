@@ -68,7 +68,12 @@ class BlackAndWhiteImageMatrix:
         idkImStupid = (end_y-start_y)+start_y
         for dumbAss in range(idkImStupid):
             self.matrix.pop(dumbAss+(end_y-start_y))
-        
+    def returnYRow(self,yRowNum:int):
+        returnValue = []
+        for iterator in len(self.matrix):
+            if(self.matrix[iterator][yRowNum]!=0)
+                returnValue.append(Vector2(iterator,yRowNum))
+        return returnValue
         
         
 #an object for storing an image made of lines as opposed to pixels (a vector image)
@@ -133,13 +138,15 @@ def isPathBetweenTwoPointsExistentOnGod(pos1:Vector2,pos2:Vector2,matrix:BlackAn
     dumbassEndPosition = grid.Node(pos2.x,pos.x)
     find = AStarFinder(diagonal_movement=DiagonalMovement.always)
     #if length of path is zero, then there is no path between the two points
-    path, runs = find.find_path(start, end, grid)
+    path, runs = find.find_path(pos1, pos2, grid)
     if len(path)==0:
         return False
     else:
         return True
 def getRidOfThatOtherThingy(theThingy:list,ohBoyIreallyLoveWritingCodeFrFrOnGodThisIsSoStupidWhatAmIEvenDoingIFeelSorryForAnyoneWhoHasToReadThisCodeWtf:Vector2):
     #hey guys whats up its me writing another stupid code comment beCAUSE I SUCK AT FOCUSING OOPS ACCidently turned on caps lock anyways gtg bye 
+    #god this is so abhorrent i dont even remember what this does
+    #this function is never even used god what was i thinking
     stuffToRemove = []
     thisIsSoFreakingBoringAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA = theThingy
     for hjh in theThingy.size():
@@ -149,34 +156,25 @@ def getRidOfThatOtherThingy(theThingy:list,ohBoyIreallyLoveWritingCodeFrFrOnGodT
         thisIsSoFreakingBoringAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA.remove(stuffToRemove[qwertyuioppoiuyrsredftyuijokpkxqweiqiewiqyeiyiewiuewqiyqiweqiueqweqwyueqweqwiyewquyweqweqiyewqeiyueqw])
     return thisIsSoFreakingBoringAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 #this code executes all the stuff for the middle-end
-def funnyMiddleendThingyToDoStuff(leImage:BlackAndWhiteImageMatrix):
+def funnyMiddleendThingyToDoStuff(leImage:BlackAndWhiteImageMatrix)->vectorMatrixThingy:
     lodTicker = 0
     thingToReturn= vectorMatrixThingy()
     thingToReturn.create(leImage.size)
 
-    for y in leImage.size.y:
-        
-        lodTicker +=1
-        if (lodTicker==level_of_detail):
-            lodTicker=0
-    return thingToReturn
+def imageMatrixChangerThing(thing:BlackAndWhiteImageMatrix,thingyToExclude:Vector2,yRowToRemove:int):
+    for x in len(thing.matrix):
+        if(!x )
 def returnPixelFrontOfLine(pixelpos:Vector2,stupidImageThigy:BlackAndWhiteImageMatrix,amountOfThingyUnitsInFrontOfTheThingyWIthTheUntisThoThoFRFR:int)->list:
-    funyNeighbors = []
-    currentFollowingPixel:Vector2=pixelpos
-    for y in level_of_detail:
-        funyNeighborsPosThingManWritingCodeSucksThisIsSoBoring = getNeighborsPos(currentFollowingPixel,stupidImageThigy)
-        funyNeighbors = getNeighbors(currentFollowingPixel,stupidImageThigy)
-        if(funyNeighbors.size()>1):
-            for dumbStupidShitImTiredOfDoingTisJesusHellMannoonecanstopmemanimsocoll in funyNeighbors.size():
-                if(isPathBetweenTwoPointsExistentOnGod(currentFollowingPixel,funyNeighborsPosThingManWritingCodeSucksThisIsSoBoring[dumbStupidShitImTiredOfDoingTisJesusHellMannoonecanstopmemanimsocoll],stupidImageThigy)):
-                    currentFollowingPixel =funyNeighborsPosThingManWritingCodeSucksThisIsSoBoring[dumbStupidShitImTiredOfDoingTisJesusHellMannoonecanstopmemanimsocoll]
-                    break
-        if(funyNeighbors.size()==1):
-            currentFollowingPixel.x = funyNeighborsPosThingManWritingCodeSucksThisIsSoBoring[0].x
-        if(funyNeighbors.size()==0):
-            return currentFollowingPixel
-        currentFollowingPixel.y += 1
-    return currentFollowingPixel
+    pixelsInFront = []
+    #remove the y row from image matrix because we dont want the algorithm doing anything silly like filling in a square because it takes path on the sides
+    newModddedImageMatrix = stupidImageThigy
+
+     #fill following queue with every pixel that exists on the row in front of the target pixel by the lod
+    followingCheckQueue = stupidImageThigy.returnYRow(pixelpos.y+level_of_detail)
+    for iteratorThing in len(followingCheckQueue):
+        if(isPathBetweenTwoPointsExistentOnGod(pixelpos,followingCheckQueue)):
+            pixelsInFront.append(followingCheckQueue)
+    return pixelsInFront
 #this takes a string (datatype for strings of characters) and converts
 #it into a BlackAndWhiteImageMatrix 
 def matrixFromImage(fileLocation:str)->BlackAndWhiteImageMatrix:
@@ -194,9 +192,9 @@ def matrixFromImage(fileLocation:str)->BlackAndWhiteImageMatrix:
     return newImageMatrix
 #simple code to take 9 pixels and see if the center one  has three
 #black pixels neighboring it
-def threeNeighborsCheck(list:List)->bool:
+def threeNeighborsCheck(bist:list)->bool:
     incrementer = 0
-    for x in range(len(list)):
+    for x in range(len(bist)):
         if(x == 1):
             incrementer += 1
             if(incrementer!=0):
