@@ -160,21 +160,12 @@ def funnyMiddleendThingyToDoStuff(leImage:BlackAndWhiteImageMatrix)->vectorMatri
     lodTicker = 0
     thingToReturn= vectorMatrixThingy()
     thingToReturn.create(leImage.size)
-
-def imageMatrixChangerThing(thing:BlackAndWhiteImageMatrix,thingyToExclude:Vector2,yRowToRemove:int):
-    for x in len(thing.matrix):
-        if(!x )
 def returnPixelFrontOfLine(pixelpos:Vector2,stupidImageThigy:BlackAndWhiteImageMatrix,amountOfThingyUnitsInFrontOfTheThingyWIthTheUntisThoThoFRFR:int)->list:
     pixelsInFront = []
-    #remove the y row from image matrix because we dont want the algorithm doing anything silly like filling in a square because it takes path on the sides
-    newModddedImageMatrix = stupidImageThigy
-
+    #in between checkpoints if for the centers of sharp corners, the algorithm will make sure to connect these in between the pixel in front just so things like squares get drawn better
+    inBetweenCHeckpoints = []
      #fill following queue with every pixel that exists on the row in front of the target pixel by the lod
-    followingCheckQueue = stupidImageThigy.returnYRow(pixelpos.y+level_of_detail)
-    for iteratorThing in len(followingCheckQueue):
-        if(isPathBetweenTwoPointsExistentOnGod(pixelpos,followingCheckQueue)):
-            pixelsInFront.append(followingCheckQueue)
-    return pixelsInFront
+    
 #this takes a string (datatype for strings of characters) and converts
 #it into a BlackAndWhiteImageMatrix 
 def matrixFromImage(fileLocation:str)->BlackAndWhiteImageMatrix:
