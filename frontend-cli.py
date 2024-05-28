@@ -14,6 +14,7 @@ from pathfinding.core.grid import Grid
 from pathfinding.finder.a_star import AStarFinder
 #command-line arguments so the user can use 
 #settings other than the defaults if they want
+checkpointHolderThing = []
 funnyArgs = sys.argv
 if(len(funnyArgs)<2):
     raise Exception("smartahh you need more arguments")
@@ -23,7 +24,7 @@ try:
     testingSomeStuff = int(funnyArgs[0])
 except:
     raise Exception("the level of detail is a number smartahh")
-level_of_detail=funnyArgs[0]
+level_of_detail:int=int(funnyArgs[0])
 print(funnyArgs)
 #classes (objects that hold functions and value)
 
@@ -63,11 +64,13 @@ class BlackAndWhiteImageMatrix:
         else:
             raise Exception("imageMatrix is black and white only")
     def crop_y(self,start_y: int, end_y: int):
+        newMatrix = self.matrix
         for dumbFUnnyNumber in range(end_y-start_y):
-            self.matrix.pop(dumbFUnnyNumber+start_y)
+            newMatrix.pop(dumbFUnnyNumber+start_y)
         idkImStupid = (end_y-start_y)+start_y
         for dumbAss in range(idkImStupid):
-            self.matrix.pop(dumbAss+(end_y-start_y))
+            newMatrix.pop(dumbAss+(end_y-start_y))
+        return newMatrix
     def returnYRow(self,yRowNum:int):
         returnValue = []
         for iterator in len(self.matrix):
@@ -125,47 +128,49 @@ def getNeighborsPos(pixelPos:Vector2,otherSTupidImageThingy:BlackAndWhiteImageMa
         return myNeighbors
 #a function to see if, in a bitmap image, you can connect two points
 #by following black pixels on the image (i just started working on it)
-def isPathBetweenTwoPointsExistentOnGod(pos1:Vector2,pos2:Vector2,matrix:BlackAndWhiteImageMatrix):
+def PathBetweenTwoPointsExistentOnGod(pos1:Vector2,pos2:Vector2,matrix:BlackAndWhiteImageMatrix):
     isResultFound = False
     stopAtYpoint = 0
     if(pos1.y<pos2.y):
         stopAtYpoint=1
     elif(pos1.y>pos2.y):
         stopAtYpoint=-1
-    matrix.crop_y(pos1.y,pos2.y)
-    grid = Grid(matrix=matrix.matrix)
+    newMatrix = matrix.crop_y(pos1.y,pos2.y)
+    grid = Grid(matrix=newMatrix.matrix)
     dumbassStartPosition = grid.Node(pos1.x,pos1.y)
     dumbassEndPosition = grid.Node(pos2.x,pos.x)
     find = AStarFinder(diagonal_movement=DiagonalMovement.always)
     #if length of path is zero, then there is no path between the two points
     path, runs = find.find_path(pos1, pos2, grid)
-    if len(path)==0:
-        return False
-    else:
-        return True
-def getRidOfThatOtherThingy(theThingy:list,ohBoyIreallyLoveWritingCodeFrFrOnGodThisIsSoStupidWhatAmIEvenDoingIFeelSorryForAnyoneWhoHasToReadThisCodeWtf:Vector2):
-    #hey guys whats up its me writing another stupid code comment beCAUSE I SUCK AT FOCUSING OOPS ACCidently turned on caps lock anyways gtg bye 
-    #god this is so abhorrent i dont even remember what this does
-    #this function is never even used god what was i thinking
-    stuffToRemove = []
-    thisIsSoFreakingBoringAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA = theThingy
-    for hjh in theThingy.size():
-        if(theThingy[hjh].y<ohBoyIreallyLoveWritingCodeFrFrOnGodThisIsSoStupidWhatAmIEvenDoingIFeelSorryForAnyoneWhoHasToReadThisCodeWtf.y):
-            stuffToRemove.append(hjh)
-    for qwertyuioppoiuyrsredftyuijokpkxqweiqiewiqyeiyiewiuewqiyqiweqiueqweqwyueqweqwiyewquyweqweqiyewqeiyueqw in stuffToRemove.size():
-        thisIsSoFreakingBoringAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA.remove(stuffToRemove[qwertyuioppoiuyrsredftyuijokpkxqweiqiewiqyeiyiewiuewqiyqiweqiueqweqwyueqweqwiyewquyweqweqiyewqeiyueqw])
-    return thisIsSoFreakingBoringAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    return path
+def checkpointsInPath():
+    return checkpointHolderThing
 #this code executes all the stuff for the middle-end
 def funnyMiddleendThingyToDoStuff(leImage:BlackAndWhiteImageMatrix)->vectorMatrixThingy:
     lodTicker = 0
     thingToReturn= vectorMatrixThingy()
     thingToReturn.create(leImage.size)
+def getWhitePixels(yRow:int,imageMatrix:BlackAndWhiteImageMatrix):
+    vector2Array = []
+    newImageMatrix = imageMatrix.crop_y(yRow,yRow)
+    for iterator in len(newImageMatrix):
+        if(newImageMatrix[iterator]==0):
+            vector2Array.append(Vector2(iterator,yRow))
+    return vector2Array
 def returnPixelFrontOfLine(pixelpos:Vector2,stupidImageThigy:BlackAndWhiteImageMatrix,amountOfThingyUnitsInFrontOfTheThingyWIthTheUntisThoThoFRFR:int)->list:
     pixelsInFront = []
-    #in between checkpoints if for the centers of sharp corners, the algorithm will make sure to connect these in between the pixel in front just so things like squares get drawn better
+    pixelsInBottom = []
+    #in between checkpoints is for the centers of sharp corners, the algorithm will make sure to connect these in between the pixel in front just so things like squares get drawn better
     inBetweenCHeckpoints = []
      #fill following queue with every pixel that exists on the row in front of the target pixel by the lod
-    
+    for validRowIterator in len(stupidImageThigy.matrix[pixelpos.y+level_of_detail]):
+        pixelsInFront.append(stupidImageThigy.matrix[pixelpos.y+level_of_detail][validRowIterator])
+    #oh boy i sure hope this solution doesnt use too much ram
+    pixelsInFrontWhitePixels = getWhitePixels(pixelpos.y+level_of_detail,stupidImageThigy)
+    for pixelsInFrontIterator in len(pixelsInFrontWhitePixels):
+        for otherIteratorThingy in len()
+    checkpointHolderThing = inBetweenCHeckpoints
+    return pixelsInFront
 #this takes a string (datatype for strings of characters) and converts
 #it into a BlackAndWhiteImageMatrix 
 def matrixFromImage(fileLocation:str)->BlackAndWhiteImageMatrix:
