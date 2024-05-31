@@ -1,4 +1,0 @@
-numpy == 1.26.4
-opencv-python == 4.9.0.80
-pathfinding==1.0.9
-minecraft==0.1.2
